@@ -1,0 +1,35 @@
+The list size is 10. Possible commands:
+INSERT
+FIND atomic#
+REMOVE atomic#
+PRINT
+STATS
+MIGRATE
+QUIT
+Atomic Number:Atomic Mass:Atom X Position:Atom Y Position:Atom X Velocity:Atom Y Velocity:
+Inserted: 1
+Atomic Number:Atomic Mass:Atom X Position:Atom Y Position:Atom X Velocity:Atom Y Velocity:
+Inserted: 2
+Atomic Number:Atomic Mass:Atom X Position:Atom Y Position:Atom X Velocity:Atom Y Velocity:
+Inserted: 3
+Atomic Number:Atomic Mass:Atom X Position:Atom Y Position:Atom X Velocity:Atom Y Velocity:
+Inserted: 3
+Number records: 4
+List has 4 records
+   0: Atom ID: 0 position = (1.000000e+00, 1.000000e+00)
+   1: Atom ID: 1 position = (2.000000e+00, 2.000000e+00)
+   2: Atom ID: 2 position = (3.000000e+00, 3.000000e+00)
+   3: Atom ID: 3 position = (2.000000e+01, 2.000000e+01)
+Min X:Max X:Min Y:Max Y:Found atoms to migrate:
+Atom ID: 3
+     atomic # = 3
+     mass     = 3.000000e+00
+     position = (2.000000e+01, 2.000000e+01)
+     velocity = (2.000000e+01, 2.000000e+01)
+
+Number records: 3
+List has 3 records
+   0: Atom ID: 0 position = (1.000000e+00, 1.000000e+00)
+   1: Atom ID: 1 position = (2.000000e+00, 2.000000e+00)
+   2: Atom ID: 2 position = (3.000000e+00, 3.000000e+00)
+Goodbye
