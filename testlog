@@ -1,0 +1,117 @@
+/* First Test Results */
+
+Seed: 1765640879
+First-fit search policy without coalescing
+
+----- Begin unit driver 0 -----
+string length=15
+:hello world 15c:
+
+Free list after first allocation
+sizeof(chunk_t) = 32
+items = 2, min = 4032, max = 4032, avg = 4032, total = 4032
+pages = 1, sbrk calls = 1
+p=0x6050e0, size=0, end=0x6050e0, next=0x20ee040 <-- dummy
+p=0x20ee040, size=126, end=0x20ef000, next=0x6050e0 
+
+Free list after first free
+unit driver 0 has returned all memory to free list
+sizeof(chunk_t) = 32
+items = 3, min = 64, max = 4032, avg = 2048, total = 4096
+pages = 1, sbrk calls = 1
+p=0x6050e0, size=0, end=0x6050e0, next=0x20ee000 <-- dummy
+p=0x20ee000, size=2, end=0x20ee040, next=0x20ee040 
+p=0x20ee040, size=126, end=0x20ef000, next=0x6050e0 
+
+----- End unit driver 0 -----
+
+
+/* Second Test Results */
+
+Seed: 1765640879
+First-fit search policy without coalescing
+
+----- Begin unit driver 1 -----
+There are 128 units per page, and the size of chunk_t is 32 bytes
+first: 480 bytes (15 units) p=0x1b7fe20 
+p=0x6050e0, size=0, end=0x6050e0, next=0x1b7f000 <-- dummy
+p=0x1b7f000, size=112, end=0x1b7fe00, next=0x6050e0 
+second: 2016 bytes (63 units) p=0x1b7f620 
+p=0x6050e0, size=0, end=0x6050e0, next=0x1b7f000 <-- dummy
+p=0x1b7f000, size=48, end=0x1b7f600, next=0x6050e0 
+third: 1504 bytes (47 units) p=0x1b7f020 
+p=0x6050e0, size=0, end=0x6050e0, next=0x6050e0 <-- dummy
+unit driver 1: above Mem_print shows empty free list
+fourth: 992 bytes (31 units) p=0x1b80c20 
+p=0x6050e0, size=0, end=0x6050e0, next=0x1b80000 <-- dummy
+p=0x1b80000, size=96, end=0x1b80c00, next=0x6050e0 
+first free of 1/8 a page p=0x1b7fe20 
+p=0x6050e0, size=0, end=0x6050e0, next=0x1b7fe00 <-- dummy
+p=0x1b7fe00, size=16, end=0x1b80000, next=0x1b80000 
+p=0x1b80000, size=96, end=0x1b80c00, next=0x6050e0 
+second free of 3/8 a page p=0x1b7f020 
+p=0x6050e0, size=0, end=0x6050e0, next=0x1b7f000 <-- dummy
+p=0x1b7f000, size=48, end=0x1b7f600, next=0x1b7fe00 
+p=0x1b7fe00, size=16, end=0x1b80000, next=0x1b80000 
+p=0x1b80000, size=96, end=0x1b80c00, next=0x6050e0 
+third free of 1/2 a page p=0x1b7f620 
+p=0x6050e0, size=0, end=0x6050e0, next=0x1b7f000 <-- dummy
+p=0x1b7f000, size=48, end=0x1b7f600, next=0x1b7f600 
+p=0x1b7f600, size=64, end=0x1b7fe00, next=0x1b7fe00 
+p=0x1b7fe00, size=16, end=0x1b80000, next=0x1b80000 
+p=0x1b80000, size=96, end=0x1b80c00, next=0x6050e0 
+fourth free of 1/4 a page p=0x1b80c20
+unit driver 1 has returned all memory to free list
+p=0x6050e0, size=0, end=0x6050e0, next=0x1b7f000 <-- dummy
+p=0x1b7f000, size=48, end=0x1b7f600, next=0x1b7f600 
+p=0x1b7f600, size=64, end=0x1b7fe00, next=0x1b7fe00 
+p=0x1b7fe00, size=16, end=0x1b80000, next=0x1b80000 
+p=0x1b80000, size=96, end=0x1b80c00, next=0x1b80c00 
+p=0x1b80c00, size=32, end=0x1b81000, next=0x6050e0 
+sizeof(chunk_t) = 32
+items = 6, min = 512, max = 3072, avg = 1632, total = 8192
+pages = 2, sbrk calls = 2
+
+----- End unit test driver 1 -----
+
+
+/* Third Test Results */
+
+Seed: 1765640879
+First-fit search policy without coalescing
+
+----- Begin unit driver 2 -----
+There are 128 units per page, and the size of chunk_t is 32 bytes
+first: 480 bytes (15 units) p=0xbb1e20 
+p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
+p=0xbb1000, size=112, end=0xbb1e00, next=0x6050e0 
+second: 2016 bytes (63 units) p=0xbb1620 
+p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
+p=0xbb1000, size=48, end=0xbb1600, next=0x6050e0 
+third: 1504 bytes (47 units) p=0xbb1020 
+p=0x6050e0, size=0, end=0x6050e0, next=0x6050e0 <-- dummy
+unit driver 2: above Mem_print shows empty free list
+
+free of the second p=0xbb1620 
+p=0x6050e0, size=0, end=0x6050e0, next=0xbb1600 <-- dummy
+p=0xbb1600, size=64, end=0xbb1e00, next=0x6050e0 
+free of the first p=0xbb1e20 
+p=0x6050e0, size=0, end=0x6050e0, next=0xbb1600 <-- dummy
+p=0xbb1600, size=64, end=0xbb1e00, next=0xbb1e00 
+p=0xbb1e00, size=16, end=0xbb2000, next=0x6050e0 
+free of the third p=0xbb1020 
+p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
+p=0xbb1000, size=48, end=0xbb1600, next=0xbb1600 
+p=0xbb1600, size=64, end=0xbb1e00, next=0xbb1e00 
+p=0xbb1e00, size=16, end=0xbb2000, next=0x6050e0 
+unit driver 2 has returned all memory to free list
+p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
+p=0xbb1000, size=48, end=0xbb1600, next=0xbb1600 
+p=0xbb1600, size=64, end=0xbb1e00, next=0xbb1e00 
+p=0xbb1e00, size=16, end=0xbb2000, next=0x6050e0 
+sizeof(chunk_t) = 32
+items = 4, min = 512, max = 2048, avg = 1376, total = 4096
+pages = 1, sbrk calls = 1
+
+----- End unit test driver 2 -----
+
