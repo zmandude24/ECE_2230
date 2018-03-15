@@ -50,7 +50,7 @@ chunk_t *morecore(int new_bytes)
     return new_p;
 }
 
-void Mem_free_coal_off(void *return_ptr);
+void coalescing(chunk_t *new_node);
 
 /* deallocates the space pointed to by return_ptr; it does nothing if
  * return_ptr is NULL.  
@@ -63,60 +63,86 @@ void Mem_free(void *return_ptr)
     // precondition
     assert(Rover != NULL && Rover->next != NULL);
 
-    if (return_ptr != NULL) Mem_free_coal_off(return_ptr);
-}
-
-/*  Adds the pointer memory into the list without coalescing
- */
-
-void Mem_free_coal_off(void *return_ptr)
-{
     chunk_t *new_node = NULL;
     chunk_t *rec_ptr = NULL;
     char returned = FALSE;
 
-    new_node = (chunk_t *)return_ptr;
-    new_node--;
-    rec_ptr = &Dummy;
-    rec_ptr = rec_ptr->next;
+    if (return_ptr != NULL) {
+        new_node = (chunk_t *)return_ptr;
+        new_node--;
+        rec_ptr = &Dummy;
+        rec_ptr = rec_ptr->next;
 
-    /* Search for the space starting with the first block */
-    while (rec_ptr != &Dummy) {
-        /* If new_node belongs before rec_ptr */
-        if (rec_ptr >= new_node + new_node->size) {
-            new_node->prev = rec_ptr->prev;
-            new_node->next = rec_ptr;
-            rec_ptr->prev->next = new_node;
-            rec_ptr->prev = new_node;
-            returned = TRUE;
-            break;
+        /* Search for the space starting with the first block */
+        while (rec_ptr != &Dummy) {
+            /* If new_node belongs before rec_ptr */
+            if (rec_ptr >= new_node + new_node->size) {
+                new_node->prev = rec_ptr->prev;
+                new_node->next = rec_ptr;
+                rec_ptr->prev->next = new_node;
+                rec_ptr->prev = new_node;
+                returned = TRUE;
+                break;
+            }
+            /* If new_node belongs on the end */
+            else if ((rec_ptr->next == &Dummy) && (rec_ptr + rec_ptr->size <= new_node)) {
+                new_node->prev = rec_ptr;
+                new_node->next = rec_ptr->next;
+                rec_ptr->next->prev = new_node;
+                rec_ptr->next = new_node;
+                returned = TRUE;
+                break;
+            }
+            rec_ptr = rec_ptr->next;
         }
-        /* If new_node belongs on the end */
-        else if ((rec_ptr->next == &Dummy) && (rec_ptr + rec_ptr->size <= new_node)) {
+        /* If the list is empty */
+        if (rec_ptr->next == rec_ptr) {
             new_node->prev = rec_ptr;
-            new_node->next = rec_ptr->next;
-            rec_ptr->next->prev = new_node;
+            new_node->next = rec_ptr;
+            rec_ptr->prev = new_node;
             rec_ptr->next = new_node;
             returned = TRUE;
-            break;
         }
-        rec_ptr = rec_ptr->next;
-    }
-    /* If the list is empty */
-    if (rec_ptr->next == rec_ptr) {
-        new_node->prev = rec_ptr;
-        new_node->next = rec_ptr;
-        rec_ptr->prev = new_node;
-        rec_ptr->next = new_node;
-        returned = TRUE;
-    }
 
-    assert(returned == TRUE);
-    rec_ptr = NULL;
+        assert(returned == TRUE);
+        rec_ptr = NULL;
+
+        /* Coalescing */
+        if (Coalescing == TRUE) coalescing(new_node);
+    }
+}
+
+void coalescing(chunk_t *new_node)
+{
+    chunk_t *fused_node = new_node;
+    chunk_t *next_node = NULL;
+
+    if (fused_node->prev + fused_node->prev->size == fused_node) {
+        fused_node = new_node->prev;
+        /* Disconnect new_node from the list */
+        new_node->prev->next = new_node->next;
+        new_node->next->prev = new_node->prev;
+        new_node->prev = NULL;
+        new_node->next = NULL;
+        /* Update fused_node */
+        fused_node->size = fused_node->size + new_node->size;
+    }
+    if (fused_node + fused_node->size == fused_node->next) {
+        next_node = fused_node->next;
+        /* Disconnect next_node from the list */
+        next_node->prev->next = next_node->next;
+        next_node->next->prev = next_node->prev;
+        next_node->prev = NULL;
+        next_node->next = NULL;
+        /* Update fused_node */
+        fused_node->size = fused_node->size + next_node->size;
+    }
 }
 
 chunk_t *find_space_first(const int nsize);
 chunk_t *find_space_best(const int nsize);
+void remove_block(chunk_t *p);
+void carve_block(chunk_t *p, const int nsize);
 
 /* returns a pointer to space for an object of size nbytes, or NULL if the
  * request cannot be satisfied.  The memory is uninitialized.
@@ -149,6 +175,7 @@ void *Mem_alloc(const int nbytes)
         pages = (nbytes+sizeof(chunk_t)-1)/PAGESIZE + 1;
         p = morecore(pages*PAGESIZE);
         p->size = pages*PAGESIZE/sizeof(chunk_t);
+        p->debug = 0;
         rec_ptr = &Dummy;
         p->next = rec_ptr;
         p->prev = rec_ptr->prev;
@@ -157,24 +184,9 @@ void *Mem_alloc(const int nbytes)
         rec_ptr = NULL;
     }
 
-    /* If its an exact fit */
-    if (p->size == nsize) {
-        p->prev->next = p->next;
-        p->next->prev = p->prev;
-    }
-    /* If we need to carve */
-    else {
-        rec_ptr = p;
-        rec_ptr->size = rec_ptr->size - nsize;
-        p = p + rec_ptr->size;
-        rec_ptr = NULL;
-    }
-
-    /* Set p parameters appropriately */
-    p->size = nsize;
-    p->prev = NULL;
-    p->next = NULL;
-    p->debug = 0;
+    /* Take p off the list */
+    if (p->size == nsize) remove_block(p);
+    else carve_block(p, nsize);
 
     /* Assert p is valid and set */
     assert((p->size - 1)*sizeof(chunk_t) >= nbytes);
@@ -209,6 +221,9 @@ chunk_t *find_space_first(const int nsize)
     return space_ptr;
 }
 
+/*  This function searches for the best fit on the list and returns NULL
+ *  if one isn't found.
+ */
 chunk_t *find_space_best(const int nsize)
 {
     chunk_t *rec_ptr = NULL;
@@ -238,6 +253,34 @@ chunk_t *find_space_best(const int nsize)
     rec_ptr = NULL;
 
     return space_ptr;
+}
+
+// Removes the block with address p from the free list
+void remove_block(chunk_t *p)
+{
+    p->prev->next = p->next;
+    p->next->prev = p->prev;
+    p->prev = NULL;
+    p->next = NULL;
+}
+
+// Carves out nsize units from the block with address p
+void carve_block(chunk_t *p, const int nsize)
+{
+    chunk_t *carved = NULL;
+    /* Create the carved block */
+    carved = p + nsize;
+    carved->prev = p->prev;
+    carved->next = p->next;
+    carved->size = p->size - nsize;
+    carved->debug = 0;
+    /* Replace p with carved on the list */
+    p->prev->next = carved;
+    p->next->prev = carved;
+    /* Disconnect and update p */
+    p->prev = NULL;
+    p->next = NULL;
+    p->size = nsize;
 }
 
 /* prints stats about the current free list

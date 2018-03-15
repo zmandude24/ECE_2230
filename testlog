@@ -80,38 +80,364 @@ pages = 2, sbrk calls = 2
 Seed: 1765640879
 First-fit search policy without coalescing
 
------ Begin unit driver 2 -----
+----- Begin unit driver 1 -----
 There are 128 units per page, and the size of chunk_t is 32 bytes
-first: 480 bytes (15 units) p=0xbb1e20 
-p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
-p=0xbb1000, size=112, end=0xbb1e00, next=0x6050e0 
-second: 2016 bytes (63 units) p=0xbb1620 
-p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
-p=0xbb1000, size=48, end=0xbb1600, next=0x6050e0 
-third: 1504 bytes (47 units) p=0xbb1020 
-p=0x6050e0, size=0, end=0x6050e0, next=0x6050e0 <-- dummy
-unit driver 2: above Mem_print shows empty free list
-
-free of the second p=0xbb1620 
-p=0x6050e0, size=0, end=0x6050e0, next=0xbb1600 <-- dummy
-p=0xbb1600, size=64, end=0xbb1e00, next=0x6050e0 
-free of the first p=0xbb1e20 
-p=0x6050e0, size=0, end=0x6050e0, next=0xbb1600 <-- dummy
-p=0xbb1600, size=64, end=0xbb1e00, next=0xbb1e00 
-p=0xbb1e00, size=16, end=0xbb2000, next=0x6050e0 
-free of the third p=0xbb1020 
-p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
-p=0xbb1000, size=48, end=0xbb1600, next=0xbb1600 
-p=0xbb1600, size=64, end=0xbb1e00, next=0xbb1e00 
-p=0xbb1e00, size=16, end=0xbb2000, next=0x6050e0 
-unit driver 2 has returned all memory to free list
-p=0x6050e0, size=0, end=0x6050e0, next=0xbb1000 <-- dummy
-p=0xbb1000, size=48, end=0xbb1600, next=0xbb1600 
-p=0xbb1600, size=64, end=0xbb1e00, next=0xbb1e00 
-p=0xbb1e00, size=16, end=0xbb2000, next=0x6050e0 
+first: 480 bytes (15 units) p=0x2116020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2116200 <-- dummy
+p=0x2116200, size=112, end=0x2117000, next=0x6060e0 
+second: 2016 bytes (63 units) p=0x2116220 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2116a00 <-- dummy
+p=0x2116a00, size=48, end=0x2117000, next=0x6060e0 
+third: 1504 bytes (47 units) p=0x2116a20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6060e0 <-- dummy
+unit driver 1: above Mem_print shows empty free list
+fourth: 992 bytes (31 units) p=0x2117020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2117400 <-- dummy
+p=0x2117400, size=96, end=0x2118000, next=0x6060e0 
+first free of 1/8 a page p=0x2116020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2116000 <-- dummy
+p=0x2116000, size=16, end=0x2116200, next=0x2117400 
+p=0x2117400, size=96, end=0x2118000, next=0x6060e0 
+second free of 3/8 a page p=0x2116a20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2116000 <-- dummy
+p=0x2116000, size=16, end=0x2116200, next=0x2116a00 
+p=0x2116a00, size=48, end=0x2117000, next=0x2117400 
+p=0x2117400, size=96, end=0x2118000, next=0x6060e0 
+third free of 1/2 a page p=0x2116220 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2116000 <-- dummy
+p=0x2116000, size=16, end=0x2116200, next=0x2116200 
+p=0x2116200, size=64, end=0x2116a00, next=0x2116a00 
+p=0x2116a00, size=48, end=0x2117000, next=0x2117400 
+p=0x2117400, size=96, end=0x2118000, next=0x6060e0 
+fourth free of 1/4 a page p=0x2117020
+unit driver 1 has returned all memory to free list
+p=0x6060e0, size=0, end=0x6060e0, next=0x2116000 <-- dummy
+p=0x2116000, size=16, end=0x2116200, next=0x2116200 
+p=0x2116200, size=64, end=0x2116a00, next=0x2116a00 
+p=0x2116a00, size=48, end=0x2117000, next=0x2117000 
+p=0x2117000, size=32, end=0x2117400, next=0x2117400 
+p=0x2117400, size=96, end=0x2118000, next=0x6060e0 
 sizeof(chunk_t) = 32
-items = 4, min = 512, max = 2048, avg = 1376, total = 4096
+items = 6, min = 512, max = 3072, avg = 1632, total = 8192
+pages = 2, sbrk calls = 2
+
+----- End unit test driver 1 -----
+
+
+/* Fourth Test Results (first-fit) */
+
+Seed: 1765640879
+First-fit search policy without coalescing
+
+----- Begin unit driver 3 -----
+There are 128 units per page, and the size of chunk_t is 32 bytes
+first: 1504 bytes (47 units) p=0x2147020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147600 <-- dummy
+p=0x2147600, size=80, end=0x2148000, next=0x6060e0 
+second: 1504 bytes (47 units) p=0x2147620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147c00 <-- dummy
+p=0x2147c00, size=32, end=0x2148000, next=0x6060e0 
+third: 480 bytes (15 units) p=0x2147c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147e00 <-- dummy
+p=0x2147e00, size=16, end=0x2148000, next=0x6060e0 
+fourth: 480 bytes (15 units) p=0x2147c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6060e0 <-- dummy
+free of the first p=0x2147020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147000 <-- dummy
+p=0x2147000, size=48, end=0x2147600, next=0x6060e0 
+free of the third p=0x2147c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147000 <-- dummy
+p=0x2147000, size=48, end=0x2147600, next=0x2147c00 
+p=0x2147c00, size=16, end=0x2147e00, next=0x6060e0 
+fifth: 480 bytes (15 units) p=0x2147020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147200 <-- dummy
+p=0x2147200, size=32, end=0x2147600, next=0x2147c00 
+p=0x2147c00, size=16, end=0x2147e00, next=0x6060e0 
+free of the fifth p=0x2147020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147000 <-- dummy
+p=0x2147000, size=16, end=0x2147200, next=0x2147200 
+p=0x2147200, size=32, end=0x2147600, next=0x2147c00 
+p=0x2147c00, size=16, end=0x2147e00, next=0x6060e0 
+free of the second p=0x2147620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147000 <-- dummy
+p=0x2147000, size=16, end=0x2147200, next=0x2147200 
+p=0x2147200, size=32, end=0x2147600, next=0x2147600 
+p=0x2147600, size=48, end=0x2147c00, next=0x2147c00 
+p=0x2147c00, size=16, end=0x2147e00, next=0x6060e0 
+free of the fourth p=0x2147e20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147000 <-- dummy
+p=0x2147000, size=16, end=0x2147200, next=0x2147200 
+p=0x2147200, size=32, end=0x2147600, next=0x2147600 
+p=0x2147600, size=48, end=0x2147c00, next=0x2147c00 
+p=0x2147c00, size=16, end=0x2147e00, next=0x2147e00 
+p=0x2147e00, size=16, end=0x2148000, next=0x6060e0 
+unit driver 3 has returned all memory to free list
+p=0x6060e0, size=0, end=0x6060e0, next=0x2147000 <-- dummy
+p=0x2147000, size=16, end=0x2147200, next=0x2147200 
+p=0x2147200, size=32, end=0x2147600, next=0x2147600 
+p=0x2147600, size=48, end=0x2147c00, next=0x2147c00 
+p=0x2147c00, size=16, end=0x2147e00, next=0x2147e00 
+p=0x2147e00, size=16, end=0x2148000, next=0x6060e0 
+sizeof(chunk_t) = 32
+items = 6, min = 512, max = 1536, avg = 832, total = 4096
 pages = 1, sbrk calls = 1
 
------ End unit test driver 2 -----
+----- End unit test driver 3 -----
+
+
+/* Fourth Test Results (best-fit) */
+
+Seed: 1765640879
+Best-fit search policy without coalescing
+
+----- Begin unit driver 3 -----
+There are 128 units per page, and the size of chunk_t is 32 bytes
+first: 1504 bytes (47 units) p=0x2485020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485600 <-- dummy
+p=0x2485600, size=80, end=0x2486000, next=0x6060e0 
+second: 1504 bytes (47 units) p=0x2485620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485c00 <-- dummy
+p=0x2485c00, size=32, end=0x2486000, next=0x6060e0 
+third: 480 bytes (15 units) p=0x2485c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485e00 <-- dummy
+p=0x2485e00, size=16, end=0x2486000, next=0x6060e0 
+fourth: 480 bytes (15 units) p=0x2485c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6060e0 <-- dummy
+free of the first p=0x2485020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485000 <-- dummy
+p=0x2485000, size=48, end=0x2485600, next=0x6060e0 
+free of the third p=0x2485c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485000 <-- dummy
+p=0x2485000, size=48, end=0x2485600, next=0x2485c00 
+p=0x2485c00, size=16, end=0x2485e00, next=0x6060e0 
+fifth: 480 bytes (15 units) p=0x2485c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485000 <-- dummy
+p=0x2485000, size=48, end=0x2485600, next=0x6060e0 
+free of the fifth p=0x2485c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485000 <-- dummy
+p=0x2485000, size=48, end=0x2485600, next=0x2485c00 
+p=0x2485c00, size=16, end=0x2485e00, next=0x6060e0 
+free of the second p=0x2485620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485000 <-- dummy
+p=0x2485000, size=48, end=0x2485600, next=0x2485600 
+p=0x2485600, size=48, end=0x2485c00, next=0x2485c00 
+p=0x2485c00, size=16, end=0x2485e00, next=0x6060e0 
+free of the fourth p=0x2485e20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485000 <-- dummy
+p=0x2485000, size=48, end=0x2485600, next=0x2485600 
+p=0x2485600, size=48, end=0x2485c00, next=0x2485c00 
+p=0x2485c00, size=16, end=0x2485e00, next=0x2485e00 
+p=0x2485e00, size=16, end=0x2486000, next=0x6060e0 
+unit driver 3 has returned all memory to free list
+p=0x6060e0, size=0, end=0x6060e0, next=0x2485000 <-- dummy
+p=0x2485000, size=48, end=0x2485600, next=0x2485600 
+p=0x2485600, size=48, end=0x2485c00, next=0x2485c00 
+p=0x2485c00, size=16, end=0x2485e00, next=0x2485e00 
+p=0x2485e00, size=16, end=0x2486000, next=0x6060e0 
+sizeof(chunk_t) = 32
+items = 5, min = 512, max = 1536, avg = 1024, total = 4096
+pages = 1, sbrk calls = 1
+
+----- End unit test driver 3 -----
+
+
+/* Fifth Test Results (first-fit) */
+
+Seed: 1765640879
+First-fit search policy using coalescing
+
+----- Begin unit driver 3 -----
+There are 128 units per page, and the size of chunk_t is 32 bytes
+first: 1504 bytes (47 units) p=0x2150020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150600 <-- dummy
+p=0x2150600, size=80, end=0x2151000, next=0x6060e0 
+second: 1504 bytes (47 units) p=0x2150620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150c00 <-- dummy
+p=0x2150c00, size=32, end=0x2151000, next=0x6060e0 
+third: 480 bytes (15 units) p=0x2150c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150e00 <-- dummy
+p=0x2150e00, size=16, end=0x2151000, next=0x6060e0 
+fourth: 480 bytes (15 units) p=0x2150c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6060e0 <-- dummy
+free of the first p=0x2150020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150000 <-- dummy
+p=0x2150000, size=48, end=0x2150600, next=0x6060e0 
+free of the third p=0x2150c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150000 <-- dummy
+p=0x2150000, size=48, end=0x2150600, next=0x2150c00 
+p=0x2150c00, size=16, end=0x2150e00, next=0x6060e0 
+fifth: 480 bytes (15 units) p=0x2150020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150200 <-- dummy
+p=0x2150200, size=32, end=0x2150600, next=0x2150c00 
+p=0x2150c00, size=16, end=0x2150e00, next=0x6060e0 
+free of the fifth p=0x2150020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150000 <-- dummy
+p=0x2150000, size=48, end=0x2150600, next=0x2150c00 
+p=0x2150c00, size=16, end=0x2150e00, next=0x6060e0 
+free of the second p=0x2150620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150000 <-- dummy
+p=0x2150000, size=112, end=0x2150e00, next=0x6060e0 
+free of the fourth p=0x2150e20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150000 <-- dummy
+p=0x2150000, size=128, end=0x2151000, next=0x6060e0 
+unit driver 3 has returned all memory to free list
+p=0x6060e0, size=0, end=0x6060e0, next=0x2150000 <-- dummy
+p=0x2150000, size=128, end=0x2151000, next=0x6060e0 
+sizeof(chunk_t) = 32
+items = 2, min = 4096, max = 4096, avg = 4096, total = 4096
+pages = 1, sbrk calls = 1
+
+----- End unit test driver 3 -----
+
+
+/* Fifth Test Results (best-fit) */
+
+Seed: 1765640879
+Best-fit search policy using coalescing
+
+----- Begin unit driver 3 -----
+There are 128 units per page, and the size of chunk_t is 32 bytes
+first: 1504 bytes (47 units) p=0x6e4020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4600 <-- dummy
+p=0x6e4600, size=80, end=0x6e5000, next=0x6060e0 
+second: 1504 bytes (47 units) p=0x6e4620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4c00 <-- dummy
+p=0x6e4c00, size=32, end=0x6e5000, next=0x6060e0 
+third: 480 bytes (15 units) p=0x6e4c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4e00 <-- dummy
+p=0x6e4e00, size=16, end=0x6e5000, next=0x6060e0 
+fourth: 480 bytes (15 units) p=0x6e4c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6060e0 <-- dummy
+free of the first p=0x6e4020 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4000 <-- dummy
+p=0x6e4000, size=48, end=0x6e4600, next=0x6060e0 
+free of the third p=0x6e4c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4000 <-- dummy
+p=0x6e4000, size=48, end=0x6e4600, next=0x6e4c00 
+p=0x6e4c00, size=16, end=0x6e4e00, next=0x6060e0 
+fifth: 480 bytes (15 units) p=0x6e4c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4000 <-- dummy
+p=0x6e4000, size=48, end=0x6e4600, next=0x6060e0 
+free of the fifth p=0x6e4c20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4000 <-- dummy
+p=0x6e4000, size=48, end=0x6e4600, next=0x6e4c00 
+p=0x6e4c00, size=16, end=0x6e4e00, next=0x6060e0 
+free of the second p=0x6e4620 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4000 <-- dummy
+p=0x6e4000, size=112, end=0x6e4e00, next=0x6060e0 
+free of the fourth p=0x6e4e20 
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4000 <-- dummy
+p=0x6e4000, size=128, end=0x6e5000, next=0x6060e0 
+unit driver 3 has returned all memory to free list
+p=0x6060e0, size=0, end=0x6060e0, next=0x6e4000 <-- dummy
+p=0x6e4000, size=128, end=0x6e5000, next=0x6060e0 
+sizeof(chunk_t) = 32
+items = 2, min = 4096, max = 4096, avg = 4096, total = 4096
+pages = 1, sbrk calls = 1
+
+----- End unit test driver 3 -----
+
+
+/* Sixth Test Results (first-fit and no coalescing) */
+
+Equilibrium test driver using Mem_alloc and Mem_free from mem.c
+  Trials in equilibrium: 100000
+  Warmup allocations: 1000
+  Average array size: 128
+  Range for average array size: 127
+After warmup
+sizeof(chunk_t) = 32
+items = 62, min = 32, max = 2432, avg = 96, total = 5216
+pages = 136, sbrk calls = 136
+After exercise, time=1783.07
+sizeof(chunk_t) = 32
+items = 5021, min = 32, max = 1056, avg = 160, total = 858368
+pages = 263, sbrk calls = 263
+After cleanup
+sizeof(chunk_t) = 32
+items = 5409, min = 32, max = 1056, avg = 192, total = 1077248
+pages = 263, sbrk calls = 263
+----- End of equilibrium test -----
+
+
+/* Sixth Test Results (best-fit and no coalescing) */
+
+Equilibrium test driver using Mem_alloc and Mem_free from mem.c
+  Trials in equilibrium: 100000
+  Warmup allocations: 1000
+  Average array size: 128
+  Range for average array size: 127
+After warmup
+sizeof(chunk_t) = 32
+items = 54, min = 32, max = 3072, avg = 96, total = 5216
+pages = 136, sbrk calls = 136
+After exercise, time=540.853
+sizeof(chunk_t) = 32
+items = 1801, min = 32, max = 1056, avg = 288, total = 502016
+pages = 176, sbrk calls = 176
+After cleanup
+sizeof(chunk_t) = 32
+items = 2189, min = 32, max = 1056, avg = 320, total = 720896
+pages = 176, sbrk calls = 176
+----- End of equilibrium test -----
+
+
+/* Sixth Test Results (first-fit and coalescing) */
+
+Equilibrium test driver using Mem_alloc and Mem_free from mem.c
+  Trials in equilibrium: 100000
+  Warmup allocations: 1000
+  Average array size: 128
+  Range for average array size: 127
+After warmup
+sizeof(chunk_t) = 32
+items = 62, min = 32, max = 2432, avg = 96, total = 5216
+pages = 136, sbrk calls = 136
+After exercise, time=461.643
+sizeof(chunk_t) = 32
+items = 157, min = 32, max = 407136, avg = 2944, total = 461056
+pages = 166, sbrk calls = 166
+After cleanup
+sizeof(chunk_t) = 32
+items = 3, min = 4096, max = 675840, avg = 339968, total = 679936
+pages = 166, sbrk calls = 166
+----- End of equilibrium test -----
+
+
+/* Sixth Test Results (best-fit and coalescing) */
+
+Equilibrium test driver using Mem_alloc and Mem_free from mem.c
+  Trials in equilibrium: 100000
+  Warmup allocations: 1000
+  Average array size: 128
+  Range for average array size: 127
+After warmup
+sizeof(chunk_t) = 32
+items = 54, min = 32, max = 3072, avg = 96, total = 5216
+pages = 136, sbrk calls = 136
+After exercise, time=436.142
+sizeof(chunk_t) = 32
+items = 104, min = 32, max = 215328, avg = 4160, total = 428288
+pages = 158, sbrk calls = 158
+After cleanup
+sizeof(chunk_t) = 32
+items = 3, min = 4096, max = 643072, avg = 323584, total = 647168
+pages = 158, sbrk calls = 158
+----- End of equilibrium test -----
+
+
+/* Sixth Test Results (malloc and free) */
+
+Equilibrium test driver using system malloc and free
+  Trials in equilibrium: 100000
+  Warmup allocations: 1000
+  Average array size: 128
+  Range for average array size: 127
+After warmup
+arena=675840B, chunks=1, alloc=552480, free=123360
+After exercise, time=489.079
+arena=675840B, chunks=113, alloc=219920, free=455920
+After cleanup
+arena=675840B, chunks=250, alloc=0, free=675840
+----- End of equilibrium test -----
 

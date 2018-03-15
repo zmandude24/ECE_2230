@@ -296,15 +296,15 @@ int main(int argc, char **argv)
         printf("free of the first p=%p \n", p1);
         Mem_free(p1);
         Mem_print();
-    
+
         /* Free the first 1/8 block */
         printf("free of the third p=%p \n", p3);
         Mem_free(p3);
         Mem_print();
-    
+
         /* Allocate a new 1/8 block */
         num_bytes_5 = (units_in_first_page/8 - 1)*unit_size;
-        p5 = (int *) Mem_alloc(num_bytes_3);
+        p5 = (int *) Mem_alloc(num_bytes_5);
         printf("fifth: %d bytes (%d units) p=%p \n", 
                 num_bytes_5, num_bytes_5/unit_size, p5);
         Mem_print();
@@ -320,7 +320,7 @@ int main(int argc, char **argv)
         Mem_print();
 
         printf("free of the fourth p=%p \n", p4);
-        Mem_free(p2);
+        Mem_free(p4);
         Mem_print();
 
         printf("unit driver 3 has returned all memory to free list\n");

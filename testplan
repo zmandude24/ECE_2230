@@ -4,4 +4,8 @@ The second test will be on unit driver 1 to see if it can manage multiple items 
 
 The third test will be on a new unit driver 2 which will allocate 3 blocks and then free the middle one.
 
-The fourth test will be on unit driver 3 that will have 2 1/4 blocks first and then 4 1/8 blocks after.
+The fourth test will be on unit driver 3 that will have 2 3/8 blocks first and 2 1/8 blocks after. We will then free the first 3/8 block and the first 1/8 block. Then we will allocate 1/8 to where the first 3/8 block used to be. This is on both first-fit and best-fit.
+
+The fifth test is a repeat of the fourth test with coalescing activated.
+
+The sixth test is to test the performance of the program in the 4 possible cases which are first-fit without coalescing, best-fit without coalescing, first-fit with coalescing, and best-fit without coalescing.
